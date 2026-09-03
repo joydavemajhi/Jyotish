@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+  <script>
+  // Detect Instagram/Facebook In-App Browser and force external browser
+  var ua = navigator.userAgent || navigator.vendor || window.opera;
+  var isInstagram = (ua.indexOf('Instagram') > -1);
+  
+  if (isInstagram) {
+    // Force open in Chrome/Safari on Mobile
+    window.location.href = "intent://joydavemajhi.github.io/Jyotish/#Intent;scheme=https;package=com.android.chrome;end";
+  }
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>KaShi Jyotish — Kundli, Ank Jyotish aur Hast Rekha</title>
