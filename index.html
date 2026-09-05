@@ -1,269 +1,441 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KaShi Jyotish - Kundli & Palm Reading</title>
-  <style>
-    :root {
-      --bg-color: #0F172A;
-      --card-bg: #1E293B;
-      --accent-color: #D4AF37;
-      --text-color: #F8FAFC;
-      --input-bg: #334155;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ansh Jyotish — Kundli, Ank Jyotish aur Hast Rekha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#12102a;
+    --bg-panel:#1c1840;
+    --bg-panel-2:#241f52;
+    --gold:#d9b25c;
+    --marigold:#e8973a;
+    --ink:#f3ede0;
+    --ink-muted:#a89fd6;
+    --line:rgba(217,178,92,0.22);
+    --danger:#e0704f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(232,151,58,0.14), transparent 45%),
+      radial-gradient(ellipse at 90% 0%, rgba(217,178,92,0.10), transparent 40%),
+      var(--bg-deep);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;}
+  .stars span{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;animation:twinkle 4s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.9;}}
+  @media (prefers-reduced-motion: reduce){ .stars span{animation:none;opacity:.3;} }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+  header{position:relative;z-index:1;text-align:center;padding:38px 20px 22px;}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--marigold);margin-bottom:10px;}
+  h1{
+    font-family:'Marcellus',serif;font-size:clamp(28px,5vw,44px);margin:0;letter-spacing:.01em;
+    background:linear-gradient(180deg,#f7ecc9,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{color:var(--ink-muted);font-size:14.5px;margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6;}
 
-    .app-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--accent-color);
-      border-radius: 16px;
-      padding: 20px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      box-sizing: border-box;
-    }
+  .wrap{max-width:720px;margin:0 auto;padding:0 18px 70px;position:relative;z-index:1;}
 
-    h2 {
-      color: var(--accent-color);
-      text-align: center;
-      margin-top: 0;
-      margin-bottom: 18px;
-      font-size: 22px;
-    }
+  .card{background:var(--bg-panel);border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:18px;}
+  label{display:block;font-size:12.5px;color:var(--ink-muted);margin:0 0 6px;letter-spacing:.02em;}
+  input[type=text],input[type=date],select{
+    width:100%;background:var(--bg-panel-2);border:1px solid var(--line);
+    color:var(--ink);padding:12px 14px;border-radius:10px;font-size:15px;
+    font-family:'Inter';margin-bottom:16px;outline:none;
+  }
+  input:focus, select:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:520px){.row2{grid-template-columns:1fr;}}
 
-    .form-group {
-      margin-bottom: 14px;
-    }
+  /* Instagram-Safe Time Selector Styling */
+  .time-picker-wrap{display:flex;gap:6px;align-items:center;margin-bottom:16px;}
+  .time-picker-wrap select{margin-bottom:0;}
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: #CBD5E1;
-    }
+  .drop{
+    border:1.5px dashed var(--line);border-radius:14px;padding:26px;text-align:center;
+    color:var(--ink-muted);cursor:pointer;margin-bottom:16px;background:var(--bg-panel-2);
+  }
+  .drop:hover{border-color:var(--gold);}
+  .drop img{max-width:100%;max-height:180px;border-radius:10px;margin-top:10px;}
+  input[type=file]{display:none;}
 
-    input[type="text"], input[type="date"] {
-      width: 100%;
-      padding: 10px;
-      background-color: var(--input-bg);
-      border: 1px solid #475569;
-      border-radius: 8px;
-      color: #FFF;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
+  .btn{
+    display:inline-block;width:100%;text-align:center;
+    background:linear-gradient(180deg,var(--marigold),#c9722c);
+    color:#1a1330;font-weight:700;font-size:15px;
+    border:none;padding:14px 18px;border-radius:12px;cursor:pointer;
+    letter-spacing:.01em;transition:transform .15s;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
-    /* Instagram Safe Dropdowns Style */
-    .time-picker-container {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: space-between;
-    }
+  .result{margin-top:22px;}
+  .result h2{
+    font-family:'Marcellus',serif;font-size:20px;color:var(--marigold);
+    margin:30px 0 14px;letter-spacing:.02em;
+  }
+  .result h2:first-child{margin-top:0;}
+  .result h3{
+    font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);
+    margin:18px 0 8px;border-bottom:1px solid var(--line);padding-bottom:7px;
+  }
+  .result p{color:#e7e1f5;line-height:1.75;font-size:14.5px;margin:0 0 8px;}
+  .pill{
+    display:inline-block;background:rgba(217,178,92,.14);border:1px solid var(--line);
+    color:var(--gold);padding:5px 13px;border-radius:999px;font-size:12.5px;font-weight:600;
+    margin-right:8px;margin-bottom:8px;
+  }
+  .divider{height:1px;background:var(--line);margin:28px 0;}
 
-    select {
-      flex: 1;
-      padding: 10px;
-      background-color: var(--input-bg);
-      border: 1px solid #475569;
-      border-radius: 8px;
-      color: #FFF;
-      font-size: 14px;
-      outline: none;
-    }
+  .disclaimer{
+    font-size:12px;color:var(--ink-muted);background:rgba(224,112,79,.08);
+    border:1px solid rgba(224,112,79,.28);padding:12px 14px;border-radius:12px;
+    margin-top:16px;line-height:1.6;
+  }
 
-    .btn-submit {
-      width: 100%;
-      background-color: var(--accent-color);
-      color: #0F172A;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: opacity 0.2s;
-    }
+  .chakra-wrap{display:flex;justify-content:center;margin:6px 0 18px;}
+  svg.chakra{width:180px;height:180px;}
+  .chakra line{stroke:var(--line);stroke-width:1;}
+  .chakra circle.outer{fill:none;stroke:var(--gold);stroke-width:1.4;}
+  .chakra text{fill:var(--ink-muted);font-size:9px;font-family:'Inter';}
+  .chakra text.sign{fill:var(--gold);font-weight:700;}
 
-    .btn-submit:hover {
-      opacity: 0.9;
-    }
+  /* Instagram DM Box Style */
+  .ig-contact-card {
+    background: var(--bg-panel-2);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 18px;
+  }
+  .ig-btn {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #FFF !important;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13.5px;
+    display: inline-block;
+    margin-top: 8px;
+  }
 
-    .result-box {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: var(--input-bg);
-      border-radius: 8px;
-      border-left: 4px solid var(--accent-color);
-      display: none;
-    }
-  </style>
+  footer{text-align:center;color:var(--ink-muted);font-size:12px;padding:20px;position:relative;z-index:1;}
+</style>
 </head>
 <body>
 
-  <div class="app-card">
-    <h2>✨ KaShi Jyotish ✨</h2>
-    
-    <form id="jyotishForm">
-      <div class="form-group">
-        <label for="fullName">Pura Naam (Full Name):</label>
-        <input type="text" id="fullName" placeholder="Apna naam likhein" required>
+<div class="stars" id="stars"></div>
+
+<header>
+  <div class="eyebrow">Ank · Jyotish · Hast Rekha</div>
+  <h1>Ansh Jyotish</h1>
+  <p class="sub">Apna naam, janm-vivaran aur hatheli ki photo dijiye — Numerology, Astrology aur Palmistry, ek hi jagah, ek hi report mein, bilkul free.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <label for="name">Poora naam</label>
+    <input type="text" id="name" placeholder="Jaise: Rohan Sharma">
+
+    <div class="row2">
+      <div>
+        <label for="dob">Janm tithi</label>
+        <input type="date" id="dob">
       </div>
-
-      <div class="form-group">
-        <label for="birthDate">Janam Tithi (Date of Birth):</label>
-        <input type="date" id="birthDate" required>
-      </div>
-
-      <!-- Instagram Safe Time Selector -->
-      <div class="form-group">
-        <label>Janam Samay (Time of Birth):</label>
-        <div class="time-picker-container">
-          <select id="birthHour">
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+      <div>
+        <label>Janm samay (vaikalpik)</label>
+        <!-- Safe Dropdown Time Inputs -->
+        <div class="time-picker-wrap">
+          <select id="timeHour">
+            <option value="">HH</option>
+            <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+            <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+            <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+            <option value="10">10</option><option value="11">11</option><option value="12">12</option>
           </select>
-
-          <span style="color: var(--accent-color); font-weight: bold;">:</span>
-
-          <select id="birthMinute">
-            <option value="00">00</option>
-            <option value="05">05</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="30">30</option>
-            <option value="35">35</option>
-            <option value="40">40</option>
-            <option value="45">45</option>
-            <option value="50">50</option>
-            <option value="55">55</option>
+          <span style="color:var(--gold); font-weight:bold;">:</span>
+          <select id="timeMin">
+            <option value="">MM</option>
+            <option value="00">00</option><option value="05">05</option><option value="10">10</option>
+            <option value="15">15</option><option value="20">20</option><option value="25">25</option>
+            <option value="30">30</option><option value="35">35</option><option value="40">40</option>
+            <option value="45">45</option><option value="50">50</option><option value="55">55</option>
           </select>
-
-          <select id="birthAmpm">
+          <select id="timeAmpm">
             <option value="AM">AM</option>
             <option value="PM">PM</option>
           </select>
         </div>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="birthPlace">Janam Sthan (Place of Birth):</label>
-        <input type="text" id="birthPlace" placeholder="City / Town naam" required>
-      </div>
+    <label for="place">Janm sthaan</label>
+    <input type="text" id="place" placeholder="Jaise: Kolkata, West Bengal">
 
-      <button type="button" class="btn-submit" onclick="generateReport()">Generate Free Report</button>
-    </form>
+    <label>Hatheli ki saaf photo</label>
+    <div class="drop" id="drop" onclick="document.getElementById('file').click()">
+      <div id="drop-label">📷 Yahan tap karke photo chunein</div>
+      <img id="preview" style="display:none;">
+    </div>
+    <input type="file" id="file" accept="image/*">
 
-    <div id="resultBox" class="result-box">
-      <h3 style="margin-top:0; color: var(--accent-color);">Aapki Report:</h3>
-      <div id="reportContent"></div>
+    <button class="btn" onclick="generateReport()">Poori Report Dekhein</button>
+
+    <div class="disclaimer">
+      Ye report Surya-Rashi, ank-ganit aur parampara-aadharit hast-rekha vishleshan par bani hai — manoranjan aur samanya margdarshan ke liye, kisi vyakti-vishesh ghatna ki nishchit bhavishyavani nahi.
     </div>
   </div>
 
-  <script>
-    function generateReport() {
-      const name = document.getElementById("fullName").value;
-      const dob = document.getElementById("birthDate").value;
-      const hour = document.getElementById("birthHour").value;
-      const minute = document.getElementById("birthMinute").value;
-      const ampm = document.getElementById("birthAmpm").value;
-      const place = document.getElementById("birthPlace").value;
+  <div class="card result" id="result" style="display:none;"></div>
 
-      if (!name || !dob || !place) {
-        alert("Kripya sabhi details sahi se bharein!");
-        return;
-      }
+</div>
 
-      const formattedTime = `${hour}:${minute} ${ampm}`;
+<footer>Bilkul free • Koi login nahi • Aapka data sirf aapke phone/browser mein rehta hai</footer>
 
-      // Date parsing for Rashi calculation
-      const birthDateObj = new Date(dob);
-      const month = birthDateObj.getMonth() + 1;
-      const day = birthDateObj.getDate();
+<script>
+// ---------- stars bg ----------
+const starsEl = document.getElementById('stars');
+for(let i=0;i<45;i++){
+  const s=document.createElement('span');
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.animationDelay=(Math.random()*4)+'s';
+  starsEl.appendChild(s);
+}
 
-      let rashi = "Mesh (Aries)";
-      let luckyColor = "Peela (Yellow) aur Sunehra (Gold)";
-      let luckyNumber = "7";
+// ---------- file preview ----------
+let palmFile = null;
+document.getElementById('file').addEventListener('change', e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  palmFile = f;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    document.getElementById('preview').src = ev.target.result;
+    document.getElementById('preview').style.display='block';
+    document.getElementById('drop-label').textContent = f.name + ' ✓';
+  };
+  reader.readAsDataURL(f);
+});
 
-      if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) rashi = "Mesh (Aries)";
-      else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) rashi = "Vrishabh (Taurus)";
-      else if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) rashi = "Mithun (Gemini)";
-      else if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) rashi = "Kark (Cancer)";
-      else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) rashi = "Singh (Leo)";
-      else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) rashi = "Kanya (Virgo)";
-      else if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) rashi = "Tula (Libra)";
-      else if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) rashi = "Vrishchik (Scorpio)";
-      else if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) rashi = "Dhanu (Sagittarius)";
-      else if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) rashi = "Makar (Capricorn)";
-      else if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) rashi = "Kumbh (Aquarius)";
-      else rashi = "Meen (Pisces)";
+// ---------- helpers ----------
+function reduceNum(n, keepMaster=true){
+  while(n>9){
+    if(keepMaster && (n===11||n===22||n===33)) return n;
+    n = String(n).split('').reduce((a,b)=>a+parseInt(b),0);
+  }
+  return n;
+}
+function seededIndex(str, mod){
+  let h=0;
+  for(let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) >>> 0; }
+  return h % mod;
+}
 
-      const reportBox = document.getElementById("resultBox");
-      const reportContent = document.getElementById("reportContent");
+// ---------- data ----------
+const lifePathText = {
+  1:"Aap swabhaav se ek neta hain — swatantra, mahatvakanshi aur naye raaste banane wale. Chunauti: dusron ki baat sunna seekhna.",
+  2:"Aap sahyog aur santulan lekar chalte hain — sanvedansheel, diplomatic, rishton ko sambhalne wale. Chunauti: apni zaroorat ko peeche na rakhna.",
+  3:"Rachnatmakta aur abhivyakti aapki taaqat hai — communication, kala ya likhawat mein chamak. Chunauti: dhyaan bikharne se bachana.",
+  4:"Aap mehnati aur vyavasthit hain — stability aur structure banane mein maahir. Chunauti: badlaav se ghabrana nahi.",
+  5:"Aazadi aur badlaav aapko pasand hai — jigyasu, adventurous, naye anubhav ke bhookhe. Chunauti: consistency banaye rakhna.",
+  6:"Zimmedari aur dekhbhaal aapka gun hai — parivar, samuday, rishton ke prati samarpit. Chunauti: khud ka bhi khyal rakhna.",
+  7:"Aap ek chintak aur khoji hain — gehri soch, aatmik vishleshan aur gyaan ki khoj. Chunauti: bahar ki duniya se juda rehna.",
+  8:"Mahatvakanksha aur vyavastha aapko safalta ki taraf le jaate hain — vyapaar aur netritva mein sahaj. Chunauti: sirf bhautik safalta par na atakna.",
+  9:"Aap ek udaar aur vishwa-drishti wale vyakti hain — karuna aur seva ka bhaav prabal. Chunauti: bina badla chahe dena seekhna.",
+  11:"Master Number 11 — aap ek prerak (inspirational) aatma hain, intuition aapki sabse badi shakti hai. Chunauti: sanvedansheelta ko sambhalna.",
+  22:"Master Number 22 — 'Master Builder', bade sapno ko vyavaharik roop dene ki kshamata. Chunauti: dabaav ke saamne santulan.",
+  33:"Master Number 33 — seva aur karuna ka uchhtam roop, dusron ko uthane wale. Chunauti: apni seemayen pehchanna."
+};
+const destinyText = {
+  1:"Aapka jeevan-lakshya hai netritva aur naye raaste banana.",
+  2:"Aapka jeevan-lakshya hai saathiyon ke saath sahyog aur santulan lana.",
+  3:"Aapka jeevan-lakshya hai apni rachnatmakta se duniya ko prerit karna.",
+  4:"Aapka jeevan-lakshya hai mazboot neenv aur vyavastha banana.",
+  5:"Aapka jeevan-lakshya hai naye anubhavon se seekhna aur sikhana.",
+  6:"Aapka jeevan-lakshya hai apno ki dekhbhaal aur samuday ki seva.",
+  7:"Aapka jeevan-lakshya hai gyaan aur satya ki khoj.",
+  8:"Aapka jeevan-lakshya hai bhautik aur vyavsayik safalta paana aur baantna.",
+  9:"Aapka jeevan-lakshya hai manavta ki seva aur karuna failana.",
+  11:"Aapka jeevan-lakshya hai apne intuition se doosron ko roshni dikhana.",
+  22:"Aapka jeevan-lakshya hai bade sapno ko thos hakikat mein badalna.",
+  33:"Aapka jeevan-lakshya hai nihswarth seva aur karuna ka udaharan banna."
+};
 
-      reportContent.innerHTML = `
-        <div style="line-height: 1.6;">
-          <p style="margin-top:0;"><strong>🙏 Namaste ${name}!</strong></p>
-          
-          <p><strong>📌 Birth Details:</strong><br>
-          • Date: ${dob}<br>
-          • Time: ${formattedTime}<br>
-          • Place: ${place}</p>
+const zodiac = [
+  {sign:"Makar (Capricorn)", from:[12,22], to:[1,19], trait:"anushasit, mehnati aur zimmedar", theme:"lakshya-driven aur dheeraj wali soch"},
+  {sign:"Kumbh (Aquarius)", from:[1,20], to:[2,18], trait:"swatantra-soch wale aur naveenta-priya", theme:"samuday aur naye vichar"},
+  {sign:"Meen (Pisces)", from:[2,19], to:[3,20], trait:"kalpanasheel aur sanvedansheel", theme:"anubhuti aur kala"},
+  {sign:"Mesh (Aries)", from:[3,21], to:[4,19], trait:"saahsi aur urjavaan", theme:"pahal aur netritva"},
+  {sign:"Vrishabh (Taurus)", from:[4,20], to:[5,20], trait:"sthir aur vyavaharik", theme:"suraksha aur aaram"},
+  {sign:"Mithun (Gemini)", from:[5,21], to:[6,20], trait:"jigyasu aur mridu-bolne wale", theme:"sanwad aur seekhna"},
+  {sign:"Kark (Cancer)", from:[6,21], to:[7,22], trait:"bhavuk aur dekhbhaal karne wale", theme:"parivar aur bhavnayein"},
+  {sign:"Simha (Leo)", from:[7,23], to:[8,22], trait:"aatmvishwasi aur udaar", theme:"pehchaan aur srijan"},
+  {sign:"Kanya (Virgo)", from:[8,23], to:[9,22], trait:"vishleshanaatmak aur satik", theme:"sudhar aur seva"},
+  {sign:"Tula (Libra)", from:[9,23], to:[10,22], trait:"santulan-priya aur diplomatic", theme:"rishtey aur nyaay"},
+  {sign:"Vrishchik (Scorpio)", from:[10,23], to:[11,21], trait:"tivra aur gehri soch wale", theme:"parivartan aur gehrayi"},
+  {sign:"Dhanu (Sagittarius)", from:[11,22], to:[12,21], trait:"aazad-khayal aur aashavaadi", theme:"ghumakkadi aur darshan"}
+];
+function getSign(m,d){
+  for(const z of zodiac){
+    const [fm,fd]=z.from, [tm,td]=z.to;
+    if(fm===tm){ if(m===fm && d>=fd && d<=td) return z; }
+    else{ if((m===fm && d>=fd) || (m===tm && d<=td)) return z; }
+  }
+  return zodiac[0];
+}
 
-          <hr style="border:0; border-top: 1px solid #475569; margin: 10px 0;">
+const heartLine = [
+  "Aapki Heart Line gehri bhavnayein aur wafadari dikhati hai — aap rishton mein poori tarah dil se judte hain.",
+  "Aapki Heart Line santulit hai — aap pyaar mein vyavaharik aur samajhdar rehte hain.",
+  "Aapki Heart Line urjavaan hai — aap apni bhavnayein khulkar aur turant zaahir karte hain.",
+  "Aapki Heart Line lambi hai — aap rishton mein dhairya aur gehri samajh rakhte hain."
+];
+const headLine = [
+  "Aapki Head Line spasht soch aur tarkik nirnay-kshamata dikhati hai.",
+  "Aapki Head Line rachnatmakta aur kalpanasheelta ki taraf jhukti hai.",
+  "Aapki Head Line vyavaharik aur focused soch dikhati hai.",
+  "Aapki Head Line jigyasa aur naye vichaaron ke prati khulapan dikhati hai."
+];
+const lifeLine = [
+  "Aapki Life Line mazboot jeevan-shakti aur sthirta dikhati hai.",
+  "Aapki Life Line adaptability aur lachilapan dikhati hai — aap badlaav ke saath dhal jaate hain.",
+  "Aapki Life Line urja aur saahsi swabhaav dikhati hai.",
+  "Aapki Life Line santulit jeevanshaili aur sanyam dikhati hai."
+];
+const fateLine = [
+  "Aapki Fate Line ek spasht disha aur uddeshya ki taraf ishara karti hai.",
+  "Aapki Fate Line dikhati hai ki aap apna raasta khud banate hain, bhagya par nirbhar nahi rehte.",
+  "Aapki Fate Line mehnat se safalta paane ki pravriti dikhati hai.",
+  "Aapki Fate Line jeevan mein kai badlaav aur naye avsaron ki sambhavna dikhati hai."
+];
 
-          <p><strong>🔮 Astrological Overview:</strong><br>
-          • <strong>Rashi (Zodiac):</strong> ${rashi}<br>
-          • <strong>Shubh Rang (Lucky Color):</strong> ${luckyColor}<br>
-          • <strong>Shubh Ank (Lucky Number):</strong> ${luckyNumber}</p>
+function chakraSVG(signLabel){
+  const short = signLabel.split(' ')[0];
+  let houses='';
+  for(let i=0;i<12;i++){
+    const ang = (i*30-90)*Math.PI/180;
+    const x1=95+70*Math.cos(ang), y1=95+70*Math.sin(ang);
+    const x2=95+95*Math.cos(ang), y2=95+95*Math.sin(ang);
+    houses += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+  }
+  return `<svg class="chakra" viewBox="0 0 190 190">
+    <circle class="outer" cx="95" cy="95" r="95"/>
+    <circle class="outer" cx="95" cy="95" r="70"/>
+    ${houses}
+    <text x="95" y="90" text-anchor="middle" class="sign">${short}</text>
+    <text x="95" y="105" text-anchor="middle">Rashi Chakra</text>
+  </svg>`;
+}
 
-          <p>🌟 <strong>Kundli Analysis:</strong> Aapki patrika ke anusar graho ki sthiti vyapar aur karya kshetra me shubh yog bana rahi hai. Sahi disha me kiya gaya prayas safalta dega.</p>
+// ---------- MAIN: single report ----------
+function generateReport(){
+  const name = document.getElementById('name').value.trim();
+  const dob = document.getElementById('dob').value;
+  const hour = document.getElementById('timeHour').value;
+  const minute = document.getElementById('timeMin').value;
+  const ampm = document.getElementById('timeAmpm').value;
+  const place = document.getElementById('place').value.trim();
 
-          <hr style="border:0; border-top: 1px solid #475569; margin: 10px 0;">
+  // Time String Format
+  const time = (hour && minute) ? `${hour}:${minute} ${ampm}` : '';
 
-          <!-- Palm Reading (Hastrekha) Section -->
-          <div style="background-color: #0F172A; padding: 12px; border-radius: 8px; border: 1px dashed #D4AF37; margin-top: 12px; text-align: center;">
-            <h4 style="margin: 0 0 6px 0; color: #D4AF37;">✋ Palm Reading Analysis (Hastrekha)</h4>
-            <p style="font-size: 13px; margin: 0 0 10px 0; color: #CBD5E1;">
-              Apni hatheli ki photo bhejkar personal Hastrekha Reading ke liye niche click karein:
-            </p>
-            <a href="https://ig.me/m/kashicrafts_india" target="_blank" rel="noopener noreferrer" 
-               style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
-                      color: #FFF; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-block;">
-               📩 Send Palm Photo to @kashicrafts_india
-            </a>
-          </div>
-        </div>
-      `;
+  if(!name || !dob || !place){
+    alert('Kripya naam, janm tithi aur janm sthaan zaroor bharein.');
+    return;
+  }
+  if(!palmFile){
+    alert('Kripya hatheli ki photo bhi upload karein.');
+    return;
+  }
 
-      reportBox.style.display = "block";
-    }
-  </script>
+  // Numerology
+  const digits = dob.replace(/-/g,'').split('').reduce((a,b)=>a+parseInt(b),0);
+  const lifePath = reduceNum(digits);
+  const map = {a:1,j:1,s:1,b:2,k:2,t:2,c:3,l:3,u:3,d:4,m:4,v:4,e:5,n:5,w:5,f:6,o:6,x:6,g:7,p:7,y:7,h:8,q:8,z:8,i:9,r:9};
+  let sum=0;
+  for(const ch of name.toLowerCase()){ if(map[ch]) sum+=map[ch]; }
+  const destinyNum = reduceNum(sum);
+
+  // Astrology
+  const d = new Date(dob+'T00:00:00');
+  const z = getSign(d.getMonth()+1, d.getDate());
+
+  // Palmistry (seeded on name+dob+file)
+  const seedBase = name + dob + palmFile.name + palmFile.size;
+  const h = heartLine[seededIndex(seedBase+'h', heartLine.length)];
+  const he = headLine[seededIndex(seedBase+'he', headLine.length)];
+  const l = lifeLine[seededIndex(seedBase+'l', lifeLine.length)];
+  const f = fateLine[seededIndex(seedBase+'f', fateLine.length)];
+
+  const box = document.getElementById('result');
+  box.style.display='block';
+  box.innerHTML = `
+    <h2>${name} ki Jyotish Report</h2>
+    <p><span class="pill">${dob}</span>${time?`<span class="pill">${time}</span>`:''}<span class="pill">${place}</span></p>
+
+    <div class="divider"></div>
+
+    <h2>🔢 Ank Jyotish</h2>
+    <h3>Life Path Number</h3>
+    <span class="pill">Ank ${lifePath}</span>
+    <p>${lifePathText[lifePath]}</p>
+    <h3>Destiny Number</h3>
+    <span class="pill">Ank ${destinyNum}</span>
+    <p>${destinyText[destinyNum]}</p>
+
+    <div class="divider"></div>
+
+    <h2>✨ Kundli</h2>
+    <div class="chakra-wrap">${chakraSVG(z.sign)}</div>
+    <h3>Aapki Rashi</h3>
+    <span class="pill">${z.sign}</span>
+    <p>Aap swabhaav se <b>${z.trait}</b> hote hain. Aapke jeevan ka kendra bindu aksar <b>${z.theme}</b> ke ird-gird ghoomta hai. Janm sthaan (${place}) samay-kshetra aur lagna ki ganana mein aage upyog hoga.</p>
+    <h3>Bhutkal ki jhalak</h3>
+    <p>${z.sign.split(' ')[0]} rashi wale aksar apne shuruaati varshon mein ${z.theme} se juda hua koi mahatvapurna sabak seekhte hain, jo unke swabhaav ko aaj tak prabhavit karta hai.</p>
+    <h3>Vartamankal — abhi ka samay</h3>
+    <p>Is samay aapka focus ${z.theme} par rehne ki sambhavna hai. Apni ${z.trait.split(' ')[0]} pravriti ka santulit upyog karna labhkari rahega.</p>
+    <h3>Bhavishyakal — sambhavnayein</h3>
+    <p>Aage ka samay unke liye shubh hota hai jo apni ${z.trait} pravriti ko dhairya ke saath disha dete hain. Yeh ek samanya rujhan hai, kisi vyakti-vishesh ghatna ki bhavishyavani nahi.</p>
+
+    <div class="divider"></div>
+
+    <h2>🖐️ Hast Rekha</h2>
+    <h3>Heart Line (Hriday Rekha)</h3><p>${h}</p>
+    <h3>Head Line (Mastishk Rekha)</h3><p>${he}</p>
+    <h3>Life Line (Jeevan Rekha)</h3><p>${l}</p>
+    <h3>Fate Line (Bhagya Rekha)</h3><p>${f}</p>
+
+    <!-- Instagram Direct Contact Section -->
+    <div class="ig-contact-card">
+      <p style="margin: 0 0 6px 0; color: var(--gold); font-weight: bold; font-size: 14px;">
+        📌 Detailed Personal Reading & Palm Photo Verification
+      </p>
+      <p style="margin: 0 0 10px 0; font-size: 12.5px; color: var(--ink-muted);">
+        Apni hatheli ki photo aur personal consultation ke liye Instagram par message karein:
+      </p>
+      <a href="https://ig.me/m/kashicrafts_india" target="_blank" rel="noopener noreferrer" class="ig-btn">
+        📩 Connect @kashicrafts_india
+      </a>
+    </div>
+
+    <div class="disclaimer">Yeh poori report samanya jyotish paramparaon aur ank-ganit par aadharit hai, vaigyanik roop se satyaapit nahi — margdarshan ke liye lein, nishchit satya ke roop mein nahi.</div>
+  `;
+  box.scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
 </body>
 </html>
